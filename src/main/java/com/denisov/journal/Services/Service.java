@@ -52,6 +52,7 @@ public class Service {
         return user;
     }
     public List<ResponseDTO> findUser(String name){
+
         return dataBase.stream()
                 .filter(user -> user.getName().equals(name))
                 .collect(Collectors.toList());
@@ -65,6 +66,7 @@ public class Service {
                     person.setCarType(info.getCarType());
                     person.setId(info.getId());
                     person.setInventory(info.getInventory());
+                    log("Updated",person);
                     return person;
         }).findFirst();
         if(updated.isPresent()){
@@ -79,6 +81,7 @@ public class Service {
                 .filter(person -> person.getId() == id)
                 .map(person ->{
                     dataBase.remove(person);
+                    log("Deleted",person);
                     return person.getId();
                 }).findFirst();
         if(deleted.isPresent()){
