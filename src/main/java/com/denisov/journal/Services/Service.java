@@ -3,6 +3,7 @@ package com.denisov.journal.Services;
 import com.denisov.journal.Model.RequestDTO;
 import com.denisov.journal.Model.ResponseDTO;
 import com.denisov.journal.Model.Type;
+import com.denisov.journal.Model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Service {
-    private final List<ResponseDTO> dataBase = new ArrayList<>();
+    private  List<ResponseDTO> dataBase = new ArrayList<>();
 
     public void log(String type, ResponseDTO user){
         byte[] data = ("\nType: " + type + "\nName: " + user.getName()).getBytes();
@@ -32,11 +33,11 @@ public class Service {
         }
     }
     public void setCar(RequestDTO requestDTO,ResponseDTO user){
-        for (Type x: requestDTO.getCarList()){
-            switch (x){
-                case BMW -> user.setCarType(Type.BMW);
-                case AUDI -> user.setCarType(Type.AUDI);
-                case FERRARI -> user.setCarType(Type.FERRARI);
+        for (Car x: requestDTO.getCarList()){
+            switch (x.getValue()){
+                case "BMW" -> user.setCarType(Type.BMW);
+                case "AUDI" -> user.setCarType(Type.AUDI);
+                case "FERRARI" -> user.setCarType(Type.FERRARI);
                 default -> user.setCarType(Type.WALKER);
             }
         }
@@ -49,13 +50,19 @@ public class Service {
         setCar(info,user);
         log("Created",user);
         dataBase.add(user);
+		System.out.println(dataBase);
         return user;
     }
     public List<ResponseDTO> findUser(String name){
 
-        return dataBase.stream()
-                .filter(user -> user.getName().equals(name))
-                .collect(Collectors.toList());
+        System.out.println("Searching for user with name: " + name);
+
+		List<ResponseDTO> matchingUsers = dataBase.stream()
+            .filter(user -> user.getName().trim().equals(name.trim()))
+            .collect(Collectors.toList());
+
+		System.out.println("Matching users: " + matchingUsers);
+		return matchingUsers;
     }
 
     public ResponseDTO updateUser(ResponseDTO info, UUID id){

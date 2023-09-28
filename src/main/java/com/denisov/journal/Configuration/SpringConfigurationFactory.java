@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.context.annotation.ComponentScan;
 
 @Configuration
+@ComponentScan(basePackages = "com.denisov.journal.Controllers")
 public class SpringConfigurationFactory {
 
     @Bean(name = "Controller")
-    @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+   
     public Controller controllerBean (){
         Controller controller = new Controller();
         controller.setService(serviceBean());

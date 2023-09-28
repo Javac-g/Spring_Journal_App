@@ -9,7 +9,7 @@ import java.util.*;
 public class RequestDTO {
     private String name;
     private Inventory inventory;
-    private List<Type> carList = new ArrayList<>();
+    private List<Car> carList = new ArrayList<>();
     
 
 }
